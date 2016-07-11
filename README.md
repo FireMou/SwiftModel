@@ -26,7 +26,7 @@ Dictionary to model. write in swift
 
 # <a id="explain"></a>说明（explain）
 - 我不知道为什么我没有办法上传工程文件了，我试过了所有我知道的办法，在github网站上上传的时候，它提示我“Something went really wrong, and we can’t process that file.”，我不知道为什么，如果有谁知道怎么解决的话，请告诉我。所以，我会在末尾附上Demo的代码，[想看代码](#wantcode)
-- I don't know why I can't upload any files,I've tried all ways what I know,When I upload the files on the github website,It prompted me"Something went really wrong, and we can’t process that file.",I do not know why, if anyone know how to solve it, please tell me. So, I will attach the code of Demo at the end.[want to watch the code](#wantcode)
+- I don't know why I can't upload any files,I've tried all ways what I know,When I upload the files on the github website,It prompted me"Something went really wrong, and we can’t process that file.",I do not know why, if anyone know how to solve it, please tell me. So, I will attach the code of Demo at the end.[watch the code](#wantcode)
 
 #<a id="useit"></a>1.怎么使用它呢？（How to use it?）
 - 在上传的文件中，有一个NSObject的分类“NSObject+Model”，将这个文件加入到你的工程中就可以使用了
