@@ -11,7 +11,7 @@ import Foundation
 /**
  数据类型
  */
-public enum ValueType :Int{
+enum ValueType {
     case Number
     case String
     case Bool
