@@ -3,6 +3,10 @@ Dictionary to model. write in swift
 
 - 一个简单的字典转模型框架（A simple framework for dictionary to model）
 
+# 说明（explain）
+- 我不知道为什么我没有办法上传工程文件了，我试过了所有我知道的办法，在github网站上上传的时候，它提示我“Something went really wrong, and we can’t process that file.”，我不知道为什么，如果有谁知道怎么解决的话，请告诉我。所以，我会在末尾附上Demo的代码，[想看代码](#wantcode)
+- I don't know why I can't upload any files,I've tried all ways what I know,When I upload the files on the github website,It prompted me"Something went really wrong, and we can’t process that file.",I do not know why, if anyone know how to solve it, please tell me. So, I will attach the code of Demo at the end.[want to watch the code](#wantcode)
+
 ###1.怎么使用它呢？（How to use it?）
 - 在上传的文件中，有一个NSObject的分类“NSObject+Model”，将这个文件加入到你的工程中就可以使用了
 - In the files which is upload, There is a file named "NSObject+Model", it's a categpry for "NSObject", just add it in your project,then you can use it.
@@ -74,3 +78,183 @@ Dictionary to model. write in swift
 ```
 * 如果在自定义类中一个以上的基础类型的变量，你需要通过判断key进行赋值。最好不要使用这些基础类型
 * if there have more than one variable is basic type, then you need judge through the "key" to assign. The best way is don not use these basic type
+
+# <a id="wantcode"></a> 代码（The code）
+
+###1.Person.swift
+
+```
+import UIKit
+
+class Person: NSObject {
+    
+    var name:String?
+    var age:NSNumber?
+    var male:Bool?
+    var computer:Computer?
+    var cars:[Car]?
+    var friends:[NSString]?
+    
+    
+    override func objectClassInArray() -> [String : AnyClass]? {
+        return ["cars":Car.classForCoder()]
+    }
+    
+    override class func customClassForVariableName() -> [String : AnyClass]? {
+        return ["computer":Computer.classForCoder()]
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        male = (value as! Int) != 0
+    }
+    
+    
+    override var description: String {
+        return "Person:  name=\(name), age=\(age), male=\(male), computer=\(computer), cars=\(cars), friends=\(friends)"
+    }
+    
+}
+```
+###2.Car.swift
+
+```
+import UIKit
+
+class Car: NSObject {
+    
+    var ID:String?
+    var wheels:Int?
+    var using:Bool?
+    
+    override class func replacedKeyFromVariableName() -> [String : String]? {
+        return ["ID":"id"]
+    }
+    
+    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
+        
+        if key == "wheels" {
+            wheels = value as? Int
+        }else{
+            using = (value as! Int) != 0
+        }
+    }
+    
+    override var description: String {
+        return "Car:  ID=\(ID), wheels=\(wheels), using=\(using)"
+    }
+    
+}
+```
+###3.Computer.swift
+```
+import UIKit
+
+class Computer: NSObject {
+    var price:NSNumber?
+    var brand:String?
+    
+    override var description: String {
+        return "Computer:  price=\(price), brand=\(brand)"
+    }
+    
+}
+```
+###4.Factory.swift
+```
+import UIKit
+
+class Factory: NSObject {
+    var address:String?
+    var name:String?
+    
+    
+    override var description: String {
+        return "Factory:  address=\(address), name=\(name)"
+    }
+}
+```
+###5.CPU.swift
+
+```
+import UIKit
+
+class CPU: NSObject {
+    var core:NSNumber?
+    var category:String?
+    var version:String?
+    
+    
+    override var description: String {
+        return "CPU:  core=\(core), category=\(category), version=\(version)"
+    }
+}
+```
+###6.ViewController.swift
+
+```
+import UIKit
+
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        
+        let dict = [
+            "name": "张三",
+            "age": 21,
+            "male":true,
+            "computer": [
+                "factory": [
+                    "address": "BeiJing",
+                    "name": "Lenovo"
+                ],
+                "CPU": [
+                    "core": 8,
+                    "category": "game",
+                    "version": "i5"
+                ],
+                "brand":"ThinkPad",
+                "price":7550
+            ],
+            "friends":[
+                "rose",
+                "jack",
+                "jobs",
+                "cook",
+                "李四"
+            ],
+            "cars":[
+                [
+                    "id": "1",
+                    "wheels": 4,
+                    "using":false
+                ],
+                [
+                    "id": "2",
+                    "wheels": 4,
+                    "using":false
+                ],
+                [
+                    "id": "3",
+                    "wheels": 4,
+                    "using":false
+                ]
+            ]
+        ]
+        
+        
+        
+        let person = Person.objectWithDictionary(dict) as? Person
+        
+        print(person)
+        
+    }
+    
+}
+```
+- 添加NSObjec+model.swift并且拷贝这些代码到你的工程中，并运行起来，这个数据结构也不是很简单的了，绝对能够满足大家的需求
+- Add the file named "NSObject+Model.swift" and copy the code to your project,and run it.The data structure in my project is not very simple,This framework is absolutely able to meet the needs of everyone.
+
+
